@@ -2,11 +2,21 @@ package View_Controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-public class modifyProduct {
+import java.io.IOException;
+
+public class addProductController {
+
+    Stage stage;
+    Parent scene;
+
 
     @FXML
     private TableColumn<?, ?> addInventoryLevel;
@@ -16,9 +26,6 @@ public class modifyProduct {
 
     @FXML
     private TableColumn<?, ?> addPartName;
-
-    @FXML
-    private TableView<?> addPartTableView;
 
     @FXML
     private TableColumn<?, ?> addPrice;
@@ -51,9 +58,6 @@ public class modifyProduct {
     private TableColumn<?, ?> removePartName;
 
     @FXML
-    private TableView<?> removePartTableView;
-
-    @FXML
     private TableColumn<?, ?> removePrice;
 
     @FXML
@@ -65,8 +69,11 @@ public class modifyProduct {
     }
 
     @FXML
-    void onActionCancel(ActionEvent event) {
-
+    void onActionCancel(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
     @FXML
@@ -75,8 +82,14 @@ public class modifyProduct {
     }
 
     @FXML
-    void onActionSaveProduct(ActionEvent event) {
-
+    void onActionSaveProduct(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 
+    public addProductController(){
+
+    }
 }
