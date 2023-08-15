@@ -1,9 +1,16 @@
 package Model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+//java: package javafx.collections does not exist
+//check javafx version. may have to download SceneBuilder first
+//SceneBuilder install did not build project
+//Needed to install JavaFX .jar files to clear error
 public class Product {
     //Private members
 
-    //private ObservableList<Part> associatedParts;
+    private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;

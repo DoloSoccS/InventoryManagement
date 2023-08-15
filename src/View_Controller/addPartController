@@ -1,0 +1,54 @@
+package View_Controller;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+
+public class addPartController implements Initializable {
+
+    Stage stage;
+    Parent scene;
+    @FXML
+    private RadioButton inHouseRadioButton;
+
+    @FXML
+    private TextField maxStock;
+
+    @FXML
+    private TextField minStock;
+
+    @FXML
+    private RadioButton outsourcedRadioButton;
+
+    @FXML
+    private TextField partID;
+
+    @FXML
+    private TextField partInventory;
+
+    @FXML
+    private TextField partName;
+
+    @FXML
+    private TextField partPrice;
+
+    @FXML
+    private TextField partSource;
+
+    @FXML
+    private ToggleGroup sourceToggleGroup;
+
+    @FXML
+    void onActionCancel(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionSave(ActionEvent event) {
+
+    }
+
+}

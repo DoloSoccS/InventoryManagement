@@ -1,0 +1,75 @@
+package View_Controller;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TextField;
+
+public class addProductController {
+
+    @FXML
+    private TableColumn<?, ?> addInventoryLevel;
+
+    @FXML
+    private TableColumn<?, ?> addPartID;
+
+    @FXML
+    private TableColumn<?, ?> addPartName;
+
+    @FXML
+    private TableColumn<?, ?> addPrice;
+
+    @FXML
+    private TextField maxStock;
+
+    @FXML
+    private TextField minStock;
+
+    @FXML
+    private TextField productIDField;
+
+    @FXML
+    private TextField productInventoryField;
+
+    @FXML
+    private TextField productNameField;
+
+    @FXML
+    private TextField productPriceField;
+
+    @FXML
+    private TableColumn<?, ?> removeInventoryLevel;
+
+    @FXML
+    private TableColumn<?, ?> removePartID;
+
+    @FXML
+    private TableColumn<?, ?> removePartName;
+
+    @FXML
+    private TableColumn<?, ?> removePrice;
+
+    @FXML
+    private TextField searchPartField;
+
+    @FXML
+    void onActionAddAssociatedPart(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionCancel(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionRemoveAssociatedPart(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionSaveProduct(ActionEvent event) {
+
+    }
+
+}
