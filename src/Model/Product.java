@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 public class Product {
     //Private members
 
-    private static ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;
@@ -86,9 +86,8 @@ public class Product {
         return false;
     }
 
-    //I have no idea what Observable list is or what it's supposed to do
-    /* public ObservableList<Part> getAllAssociatedParts(){
-        return i;
-    }*/
+    public ObservableList<Part> getAllAssociatedParts(){
+        return null;
+    }
 
 }
