@@ -78,7 +78,7 @@
             <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="550.0" prefWidth="380.0" spacing="15.0">
                <children>
                   <TextField fx:id="searchPartField" maxWidth="-Infinity" prefWidth="170.0" promptText="Search by Part ID or Name" />
-                  <TableView maxWidth="-Infinity" prefHeight="150.0" prefWidth="380.0">
+                  <TableView fx:id="addPartTableView" maxWidth="-Infinity" prefHeight="150.0" prefWidth="380.0">
                     <columns>
                       <TableColumn fx:id="addPartID" editable="false" prefWidth="75.0" text="Part ID" />
                       <TableColumn fx:id="addPartName" editable="false" prefWidth="75.0" text="Part Name" />
@@ -87,7 +87,7 @@
                     </columns>
                   </TableView>
                   <Button mnemonicParsing="false" onAction="#onActionAddAssociatedPart" text="Add" />
-                  <TableView layoutX="10.0" layoutY="50.0" maxWidth="-Infinity" prefHeight="150.0" prefWidth="380.0">
+                  <TableView fx:id="removePartTableView" layoutX="10.0" layoutY="50.0" maxWidth="-Infinity" prefHeight="150.0" prefWidth="380.0">
                      <columns>
                         <TableColumn fx:id="removePartID" editable="false" prefWidth="75.0" text="Part ID" />
                         <TableColumn fx:id="removePartName" editable="false" prefWidth="75.0" text="Part Name" />

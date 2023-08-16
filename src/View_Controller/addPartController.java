@@ -29,22 +29,22 @@ public class addPartController implements Initializable {
     private RadioButton outsourcedRadioButton;
 
     @FXML
-    private TextField maxStock;
-
-    @FXML
-    private TextField minStock;
-
-    @FXML
     private TextField partID;
-
-    @FXML
-    private TextField partInventory;
 
     @FXML
     private TextField partName;
 
     @FXML
+    private TextField partInventory;
+
+    @FXML
     private TextField partPrice;
+
+    @FXML
+    private TextField maxStock;
+
+    @FXML
+    private TextField minStock;
 
     @FXML
     private TextField partSource;
