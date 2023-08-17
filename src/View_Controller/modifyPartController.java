@@ -56,6 +56,16 @@ public class modifyPartController implements Initializable {
     }
 
     @FXML
+    void onActionInHouse(ActionEvent event) {
+
+    }
+
+    @FXML
+    void onActionOutsource(ActionEvent event) {
+
+    }
+
+    @FXML
     void onActionSave(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));

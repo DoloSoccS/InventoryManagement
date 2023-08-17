@@ -83,8 +83,20 @@ public class addProductController implements Initializable {
 
     }
 
+    //Saves Product and returns to Main Menu if inputs are compatible
     @FXML
     void onActionSaveProduct(ActionEvent event) throws IOException {
+
+        //auto increment added to save method to prevent incrementing without use
+
+        int id = Inventory.nextProductID();
+        String name = productNameField.getText();
+        int stock = Integer.parseInt(productInventoryField.getText());
+        double price = Double.parseDouble(productPriceField.getText());
+        int max = Integer.parseInt(maxStock.getText());
+        int min = Integer.parseInt(minStock.getText());
+        Inventory.addProduct(new Product(id, name, price, stock, min, max));
+
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
         stage.setScene(new Scene(scene));

@@ -25,11 +25,11 @@
                         <Font name="Calibri Bold" size="14.0" />
                      </font>
                   </Label>
-                  <RadioButton fx:id="inHouseRadioButton" mnemonicParsing="false" text="In-House">
+                  <RadioButton fx:id="inHouseRadioButton" mnemonicParsing="false" onAction="#onActionInHouse" text="In-House">
                      <toggleGroup>
                         <ToggleGroup fx:id="sourceToggleGroup" />
                      </toggleGroup></RadioButton>
-                  <RadioButton fx:id="outsourcedRadioButton" layoutX="38.0" layoutY="10.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$sourceToggleGroup" />
+                  <RadioButton fx:id="outsourcedRadioButton" layoutX="38.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionOutsource" text="Outsourced" toggleGroup="$sourceToggleGroup" />
                </children>
                <VBox.margin>
                   <Insets left="5.0" />
