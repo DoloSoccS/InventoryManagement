@@ -38,7 +38,7 @@
                         <Font name="Calibri Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="partSearchMainMenu" promptText="Search by Part ID or Name" GridPane.columnIndex="1" />
+                  <TextField fx:id="partSearchMainMenu" onAction="#onActionPartSearch" promptText="Search by Part ID or Name" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <TableView fx:id="partsMainMenuTableView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="125.0" prefWidth="344.0">
@@ -84,7 +84,7 @@
                         <Font name="Calibri Bold" size="12.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="productSearchMainMenu" promptText="Search by Product ID or Name" GridPane.columnIndex="1" />
+                  <TextField fx:id="productSearchMainMenu" onAction="#onActionProductSearch" promptText="Search by Product ID or Name" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <TableView fx:id="productsMainMenuTableView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="125.0" prefWidth="344.0">

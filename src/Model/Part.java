@@ -1,5 +1,7 @@
 package Model;
 
+import javafx.scene.control.Alert;
+
 public abstract class Part {
 
         private int id;
@@ -73,4 +75,47 @@ public abstract class Part {
     public int getMax() {
         return max;
     }
+
+    public String foundError;
+
+    public Alert PartScreenAlert;
+
+    /**
+     *
+     *
+
+     */
+
+    //Validity check method for adding and modifying Parts
+
+    public boolean notValid(String name, Double price, Integer stock, Integer min, Integer max) throws Exception{
+
+        if(name.isBlank()){
+            foundError = "No name input";
+            return true;
+        }
+
+        for (int i = 0; i < name.length(); i++) {
+            char check = name.toLowerCase().charAt(i);
+                if (!(check >= 'a' && check <= 'z')) {
+                    foundError = "Name must only contain letters";
+                    return true;
+                }
+        }
+            if (!(price > 0)) {
+                foundError = "Price must be greater than 0.00";
+                return true;
+            }
+
+
+        //return line
+        return false;
+    }
+
+
+
+
+
+
 }
+

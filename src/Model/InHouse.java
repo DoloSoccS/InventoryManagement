@@ -14,6 +14,8 @@ public class InHouse extends Part {
         this.machineId = machineId;
     }
 
+    public InHouse(){}
+
     //Public methods
 
 

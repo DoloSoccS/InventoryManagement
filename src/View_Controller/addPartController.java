@@ -7,20 +7,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.scene.control.Label;
+
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class addPartController implements Initializable {
 
     Stage stage;
     Parent scene;
+    Alert addPartScreenAlert;
 
     @FXML
     private RadioButton inHouseRadioButton;
@@ -77,44 +76,62 @@ public class addPartController implements Initializable {
     }
     //Saves the new Part with the added values if compatible then goes back to Main Menu
     @FXML
-    void onActionSave(ActionEvent event) throws IOException {
+    void onActionSave(ActionEvent event) throws Exception {
 
         //auto increment added to save method to prevent incrementing without use
 
-        int id = Inventory.nextPartID();
+        int id = Integer.parseInt(partID.getText());
         String name = partName.getText();
         int stock = Integer.parseInt(partInventory.getText());
         double price = Double.parseDouble(partPrice.getText());
         int max = Integer.parseInt(maxStock.getText());
         int min = Integer.parseInt(minStock.getText());
-        String source = partSource.getText();
-        int machineId;
-        String companyName;
+        int machineId = Integer.parseInt(partSource.getText());
+        String companyName = partSource.getText();
+        Part addedPart;
 
-        if (inHouseRadioButton.isSelected()) {
+        try {
+            if (inHouseRadioButton.isSelected()) {
+                addedPart = new InHouse(id, name, price, stock, min, max, machineId);
+            }
+            else {
+                addedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+            }
 
-            machineId = Integer.parseInt(partSource.getText());
-            Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
-        } else {
 
-            companyName = partSource.getText();
-            Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
+            if(!(addedPart.notValid(name,price, stock, min, max))) {
+                Inventory.addPart(addedPart);
+                mainMenu(event);
+            }
+            else {
+                addPartScreenAlert = new Alert(Alert.AlertType.ERROR);
+                addPartScreenAlert.setTitle("Save Failed!");
+                addPartScreenAlert.setContentText(addedPart.foundError);
+                addPartScreenAlert.show();
+            }
+
+        }
+        catch(Exception e){
+            addedPart = new InHouse();
+            addedPart.foundError = "Must have input for each field.";
+            addPartScreenAlert = new Alert(Alert.AlertType.ERROR);
+            addPartScreenAlert.setTitle("Save Failed!");
+            addPartScreenAlert.setContentText(addedPart.foundError);
+            addPartScreenAlert.show();
         }
 
 
-
-        stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
     }
 
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
-        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-        scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
-        stage.setScene(new Scene(scene));
-        stage.show();
+        addPartScreenAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        addPartScreenAlert.setTitle("Abort Operation");
+        addPartScreenAlert.setContentText("Are you sure you want to cancel adding a part ?");
+        Optional<ButtonType> option = addPartScreenAlert.showAndWait();
+        if(option.isPresent() && option.get() == ButtonType.OK){
+            mainMenu(event);
+        }
     }
 
     public addPartController() {
@@ -124,5 +141,18 @@ public class addPartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        partID.setText(String.valueOf(Inventory.nextPartID()));
+        isInHouse = true;
+        inHouseRadioButton.setSelected(true);
+        partSourceLbl.setText("Machine ID");
+        partSource.setPromptText("Machine ID");
+
+    }
+
+    private void mainMenu(ActionEvent event) throws IOException {
+        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+        scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
+        stage.setScene(new Scene(scene));
+        stage.show();
     }
 }

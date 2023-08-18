@@ -1,6 +1,7 @@
 package View_Controller;
 
 import Model.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -82,6 +83,13 @@ public class addProductController implements Initializable {
     void onActionRemoveAssociatedPart(ActionEvent event) {
 
     }
+
+    @FXML
+    ObservableList<Part> onActionSearchPartField(ActionEvent event) {
+        return Inventory.getAllParts();
+
+    }
+
 
     //Saves Product and returns to Main Menu if inputs are compatible
     @FXML

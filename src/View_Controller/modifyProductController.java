@@ -1,6 +1,7 @@
 package View_Controller;
 
 import Model.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -65,6 +66,12 @@ public class modifyProductController implements Initializable {
     @FXML
     private TableColumn<Part, Double> removePrice;
 
+
+    @FXML
+    ObservableList<Part> onActionSearchPartField(ActionEvent event) {
+        return Inventory.getAllParts();
+
+    }
 
     @FXML
     void onActionAddAssociatedPart(ActionEvent event) {

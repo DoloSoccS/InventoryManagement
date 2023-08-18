@@ -10,7 +10,7 @@ public class InventoryManagement extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        //addTestData();
+        addTestData();
 
         Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
         Scene scene = new Scene(root);
@@ -25,7 +25,7 @@ public class InventoryManagement extends Application {
             launch(args);
         }
 
-/*    void addTestData() {
+   void addTestData() {
         //Add InHouse Parts
         Part a1 = new InHouse(1, "Part A1", 2.99, 10, 5, 100, 101);
         Part a2 = new InHouse(3, "Part A2", 4.99, 11, 5, 100, 103);
@@ -60,6 +60,6 @@ public class InventoryManagement extends Application {
         Inventory.addProduct(p1);
         Inventory.addProduct(p2);
         Inventory.addProduct(p3);
-    }*/
+    }
 
 }

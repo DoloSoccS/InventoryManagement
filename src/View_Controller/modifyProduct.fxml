@@ -77,7 +77,7 @@
                 </VBox>
                 <VBox alignment="TOP_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="550.0" prefWidth="380.0" spacing="15.0">
                     <children>
-                        <TextField fx:id="searchPartField" maxWidth="-Infinity" prefWidth="170.0" promptText="Search by Part ID or Name" />
+                        <TextField fx:id="searchPartField" maxWidth="-Infinity" onAction="#onActionSearchPartField" prefWidth="170.0" promptText="Search by Part ID or Name" />
                         <TableView fx:id="addPartTableView" maxWidth="-Infinity" prefHeight="150.0" prefWidth="380.0">
                             <columns>
                                 <TableColumn fx:id="addPartID" editable="false" prefWidth="75.0" text="Part ID" />
