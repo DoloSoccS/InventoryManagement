@@ -8,10 +8,6 @@ public class Inventory {
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
     private static int autoPartID = 1000;
     private static int autoProductID = 1;
-    public static ObservableList<Part> partSearchedByID = FXCollections.observableArrayList();
-    public static ObservableList<Part> partSearchedByName = FXCollections.observableArrayList();
-    public static ObservableList<Product> productSearchedByID = FXCollections.observableArrayList();
-    public static ObservableList<Product> productSearchedByName = FXCollections.observableArrayList();
 
 
     public static void addPart(Part newPart) {
@@ -25,15 +21,36 @@ public class Inventory {
     }
 
     public static Part lookupPart(int partID) {
+
+        for (Part part : allParts) {
+            if (part.getId() == partID) {
+                return part;
+            }
+        }
         return null;
     }
 
     public static Product lookupProduct(int productID) {
+        for (Product product : allProducts){
+            if (product.getId() == productID){
+                return product;
+            }
+        }
         return null;
     }
 
     public static ObservableList<Part> lookupPart(String partName) {
+        ObservableList<Part> foundItem = FXCollections.observableArrayList();
+        if(!partName.isBlank())
+            for (Part part : allParts) {
+                if (part.getName().toLowerCase() == partName.toLowerCase()) {
+                    foundItem.add(part);
+                }
+
+
+        }
         return null;
+
     }
 
     public static ObservableList<Product> lookupProduct(String productName) {
@@ -89,10 +106,5 @@ public class Inventory {
     public static int nextProductID() {
         return autoProductID;
     }
-
-    public static ObservableList<Part> partSearchedByID() {
-        return partSearchedByID;
-    }
-
 }
 

@@ -80,14 +80,25 @@ public class Product {
     //Methods to add, delete and get retrieve associated Parts
 
     public void addAssociatedPart(Part part){
+        if(part != null) {
+            associatedParts.add(part);
+        }
     }
 
     public boolean deleteAssociatedPart(Part selectedAssociatedPart){
+        if (selectedAssociatedPart != null) {
+            for (int i = 0; i < associatedParts.size(); i++) {
+                if (associatedParts.get(i) == selectedAssociatedPart) {
+                    associatedParts.remove(i);
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
     public ObservableList<Part> getAllAssociatedParts(){
-        return null;
+        return associatedParts;
     }
 
 }

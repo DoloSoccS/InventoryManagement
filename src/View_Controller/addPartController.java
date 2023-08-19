@@ -54,7 +54,7 @@ public class addPartController implements Initializable {
     @FXML
     private ToggleGroup sourceToggleGroup;
 
-    boolean isInHouse;
+    private boolean isInHouse;
 
     //onAction needed for FXML file to have program realize button was selected.
     @FXML
@@ -79,22 +79,24 @@ public class addPartController implements Initializable {
     void onActionSave(ActionEvent event) throws Exception {
 
         //auto increment added to save method to prevent incrementing without use
-
-        int id = Integer.parseInt(partID.getText());
-        String name = partName.getText();
-        int stock = Integer.parseInt(partInventory.getText());
-        double price = Double.parseDouble(partPrice.getText());
-        int max = Integer.parseInt(maxStock.getText());
-        int min = Integer.parseInt(minStock.getText());
-        int machineId = Integer.parseInt(partSource.getText());
-        String companyName = partSource.getText();
-        Part addedPart;
-
         try {
-            if (inHouseRadioButton.isSelected()) {
+
+            int id = Integer.parseInt(partID.getText());
+            String name = partName.getText();
+            int stock = Integer.parseInt(partInventory.getText());
+            double price = Double.parseDouble(partPrice.getText());
+            int max = Integer.parseInt(maxStock.getText());
+            int min = Integer.parseInt(minStock.getText());
+            Part addedPart;
+
+            //I don't know why but the machineId and companyName variables cannot be put
+            // outside methods below
+            if (isInHouse) {
+                int machineId = Integer.parseInt(partSource.getText());
                 addedPart = new InHouse(id, name, price, stock, min, max, machineId);
             }
             else {
+                String companyName = partSource.getText();
                 addedPart = new Outsourced(id, name, price, stock, min, max, companyName);
             }
 
@@ -112,11 +114,10 @@ public class addPartController implements Initializable {
 
         }
         catch(Exception e){
-            addedPart = new InHouse();
-            addedPart.foundError = "Must have input for each field.";
+            System.out.println(e);
             addPartScreenAlert = new Alert(Alert.AlertType.ERROR);
             addPartScreenAlert.setTitle("Save Failed!");
-            addPartScreenAlert.setContentText(addedPart.foundError);
+            addPartScreenAlert.setContentText("Must insert value for each field.");
             addPartScreenAlert.show();
         }
 
@@ -141,7 +142,7 @@ public class addPartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        partID.setText(String.valueOf(Inventory.nextPartID()));
+        partID.setText("Auto: " + String.valueOf(Inventory.nextPartID()));
         isInHouse = true;
         inHouseRadioButton.setSelected(true);
         partSourceLbl.setText("Machine ID");
