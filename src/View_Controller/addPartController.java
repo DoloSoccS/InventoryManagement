@@ -74,54 +74,76 @@ public class addPartController implements Initializable {
         partSourceLbl.setText("Company Name");
         partSource.setPromptText("Company Name");
     }
-    //Saves the new Part with the added values if compatible then goes back to Main Menu
+
+    /**
+     * Save method adds a new Part to the Inventory list after validating the
+     * correct data types and required information is input for the correlating
+     * object types.
+     */
     @FXML
     void onActionSave(ActionEvent event) throws Exception {
 
         //auto increment added to save method to prevent incrementing without use
-        try {
+        int id = Integer.parseInt(partID.getText());
+        String name = partName.getText();
+        Part addedPart;
+        int stock;
+        double price;
+        int max;
+        int min;
+        if(isInHouse){
+            try {
+                stock = Integer.parseInt(partInventory.getText());
+                price = Double.parseDouble(partPrice.getText());
+                max = Integer.parseInt(maxStock.getText());
+                min = Integer.parseInt(minStock.getText());
 
-            int id = Integer.parseInt(partID.getText());
-            String name = partName.getText();
-            int stock = Integer.parseInt(partInventory.getText());
-            double price = Double.parseDouble(partPrice.getText());
-            int max = Integer.parseInt(maxStock.getText());
-            int min = Integer.parseInt(minStock.getText());
-            Part addedPart;
 
-            //I don't know why but the machineId and companyName variables cannot be put
-            // outside methods below
-            if (isInHouse) {
                 int machineId = Integer.parseInt(partSource.getText());
                 addedPart = new InHouse(id, name, price, stock, min, max, machineId);
-            }
-            else {
-                String companyName = partSource.getText();
-                addedPart = new Outsourced(id, name, price, stock, min, max, companyName);
-            }
+                if (!(((InHouse) addedPart).notValid(name, price, stock, min, max))) {
+                    Inventory.addPart(addedPart);
+                    mainMenu(event);
+                } else {
+                    addPartScreenAlert = new Alert(Alert.AlertType.ERROR);
+                    addPartScreenAlert.setTitle("Save Failed!");
+                    addPartScreenAlert.setContentText(((InHouse) addedPart).foundError);
+                    addPartScreenAlert.show();
+                }
+            }catch(Exception e){
 
-
-            if(!(addedPart.notValid(name,price, stock, min, max))) {
-                Inventory.addPart(addedPart);
-                mainMenu(event);
-            }
-            else {
                 addPartScreenAlert = new Alert(Alert.AlertType.ERROR);
                 addPartScreenAlert.setTitle("Save Failed!");
-                addPartScreenAlert.setContentText(addedPart.foundError);
+                addPartScreenAlert.setContentText("Must use numbers for Inv, Price, Max, Min and Machine ID");
                 addPartScreenAlert.show();
             }
-
         }
-        catch(Exception e){
-            System.out.println(e);
-            addPartScreenAlert = new Alert(Alert.AlertType.ERROR);
-            addPartScreenAlert.setTitle("Save Failed!");
-            addPartScreenAlert.setContentText("Must insert value for each field.");
-            addPartScreenAlert.show();
+        else {
+            try{
+                stock = Integer.parseInt(partInventory.getText());
+                price = Double.parseDouble(partPrice.getText());
+                max = Integer.parseInt(maxStock.getText());
+                min = Integer.parseInt(minStock.getText());
+
+                String companyName = partSource.getText();
+                addedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+                if(!(((Outsourced) addedPart).notValid(name, companyName, price, stock, min, max))) {
+                    Inventory.addPart(addedPart);
+                    mainMenu(event);
+                }
+                else {
+                    addPartScreenAlert = new Alert(Alert.AlertType.ERROR);
+                    addPartScreenAlert.setTitle("Save Failed!");
+                    addPartScreenAlert.setContentText(((Outsourced) addedPart).foundError);
+                    addPartScreenAlert.show();
+                }
+            }catch(Exception e){
+                addPartScreenAlert = new Alert(Alert.AlertType.ERROR);
+                addPartScreenAlert.setTitle("Save Failed!");
+                addPartScreenAlert.setContentText("Must use numbers for Inv, Price, Max and Min");
+                addPartScreenAlert.show();
+            }
         }
-
-
     }
 
     @FXML
@@ -142,7 +164,7 @@ public class addPartController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        partID.setText("Auto: " + String.valueOf(Inventory.nextPartID()));
+        partID.setText( String.valueOf(Inventory.nextPartID()));
         isInHouse = true;
         inHouseRadioButton.setSelected(true);
         partSourceLbl.setText("Machine ID");

@@ -21,41 +21,40 @@ public class InventoryManagement extends Application {
 
 
     public static void main(String[] args) {
-
             launch(args);
         }
 
    void addTestData() {
         //Add InHouse Parts
-        Part a1 = new InHouse(1, "Part A1", 2.99, 10, 5, 100, 101);
-        Part a2 = new InHouse(3, "Part A2", 4.99, 11, 5, 100, 103);
-        Part b = new InHouse(2, "Part B", 3.99, 9, 5, 100, 102);
-        Inventory.addPart(a1);
-        Inventory.addPart(b);
-        Inventory.addPart(a2);
+        Part wrench = new InHouse(1, "Wrench", 2.99, 10, 5, 100, 101);
+        Part bolt = new InHouse(3, "Bolt", 4.99, 11, 5, 100, 103);
+        Part sheer = new InHouse(2, "Sheer", 3.99, 9, 5, 100, 102);
+        Inventory.addPart(wrench);
+        Inventory.addPart(bolt);
+        Inventory.addPart(sheer);
         //Add OutSourced Parts
-        Part o1 = new Outsourced(6, "Part 01", 2.99, 10, 5, 100, "ACME Co.");
-        Part p = new Outsourced(7, "Part P", 3.99, 9, 5, 100, "ACME Co.");
-        Part q = new Outsourced(8, "Part Q", 2.99, 10, 5, 100, "FLORIDA Co.");
-        Inventory.addPart(o1);
-        Inventory.addPart(p);
-        Inventory.addPart(q);
+        Part one = new Outsourced(6, "Part 1", 7.99, 10, 5, 100, "Rimac");
+        Part two = new Outsourced(7, "Part 2", 3.99, 9, 5, 100, "Mopar");
+        Part three = new Outsourced(8, "Part 3", 52.99, 10, 5, 100, "Hennessey Performance");
+        Inventory.addPart(one);
+        Inventory.addPart(two);
+        Inventory.addPart(three);
 
         //Add Product
 
         Product p1 = new Product(1, "BF Goodrich AT", 169.99, 4, 1, 10);
-        p1.addAssociatedPart(o1);
-        p1.addAssociatedPart(p);
+        p1.addAssociatedPart(sheer);
+        p1.addAssociatedPart(two);
 
-        Product p2 = new Product(2, "Picnic Basket", 4.99, 8, 1, 10);
-        p2.addAssociatedPart(p);
-        p2.addAssociatedPart(q);
-        p2.deleteAssociatedPart(q);
+        Product p2 = new Product(2, "Toolkit", 40.99, 8, 1, 10);
+        p2.addAssociatedPart(one);
+        p2.addAssociatedPart(wrench);
+        p2.deleteAssociatedPart(bolt);
 
-        Product p3 = new Product(3, "Soft Drink", 0.99, 3, 1, 4);
-        p3.addAssociatedPart(b);
-        p3.addAssociatedPart(a2);
-        p3.addAssociatedPart(o1);
+        Product p3 = new Product(3, "2 Ton Jack", 109.99, 3, 1, 4);
+        p3.addAssociatedPart(three);
+        p3.addAssociatedPart(bolt);
+        p3.addAssociatedPart(bolt);
 
         Inventory.addProduct(p1);
         Inventory.addProduct(p2);

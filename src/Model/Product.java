@@ -17,6 +17,8 @@ public class Product {
     private int stock;
     private int min;
     private int max;
+    public String foundError;
+
 
     //Constructor Creation done with 'Alt + Insert' shortcut
     public Product(int id, String name, double price, int stock, int min, int max) {
@@ -27,64 +29,71 @@ public class Product {
         this.min = min;
         this.max = max;
     }
+    /**
+     * Blank constructor for initializing instances without values
+     */
+    public Product() {
 
-    //Public Getters and Setters created with 'Alt + Insert' shortcut
+    }
+
+    /**
+     * Get methods
+     */
     public int getId() {
         return id;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public double getPrice() {
         return price;
     }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public int getStock() {
         return stock;
     }
-
-    public void setStock(int stock) {
-        this.stock = stock;
-    }
-
     public int getMin() {
         return min;
     }
-
-    public void setMin(int min) {
-        this.min = min;
-    }
-
     public int getMax() {
         return max;
     }
 
+
+    /**
+     * Set methods
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+    public void setMin(int min) {
+        this.min = min;
+    }
     public void setMax(int max) {
         this.max = max;
     }
 
-    //Methods to add, delete and get retrieve associated Parts
-
+    /**
+     * Method to add an associated Part to a Product object
+     *
+     */
     public void addAssociatedPart(Part part){
         if(part != null) {
             associatedParts.add(part);
         }
     }
-
+    /**
+     * Method to delete an associated Part of a Product object
+     *
+     */
     public boolean deleteAssociatedPart(Part selectedAssociatedPart){
         if (selectedAssociatedPart != null) {
             for (int i = 0; i < associatedParts.size(); i++) {
@@ -97,8 +106,33 @@ public class Product {
         return false;
     }
 
+    /**
+     * Method to return all the associated Parts of the Product object
+     *
+     */
     public ObservableList<Part> getAllAssociatedParts(){
         return associatedParts;
     }
 
+    public boolean notValid(String name, Double price, Integer stock, Integer min, Integer max) {
+
+        if(name.isBlank()){
+            foundError = "Name required for Product";
+            return true;
+        }
+
+        if (price < 0) {
+            foundError = "Price cannot be negative";
+            return true;
+        }
+
+        if (!(stock >= min && stock <= max)) {
+            foundError = "Inventory Level must be greater than or equal to minimum and less than or equal to maximum.";
+            return true;
+        }
+
+        return false;
+    }
 }
+
+
