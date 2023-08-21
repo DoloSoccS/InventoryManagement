@@ -9,7 +9,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -18,7 +17,7 @@ public class modifyPartController implements Initializable {
 
     Stage stage;
     Parent scene;
-    Part selectedPart;
+    Part modifyPart;
     int index;
     private boolean isInHouse;
     Alert modifyPartScreenAlert;
@@ -35,11 +34,11 @@ public class modifyPartController implements Initializable {
     @FXML private ToggleGroup sourceToggleGroup;
     @FXML private Label partSourceLbl;
 
-    public modifyPartController() {}
+    public modifyPartController(){}
 
     public modifyPartController(int index, Part part) {
-        this.selectedPart = part;
         this.index = index;
+        this.modifyPart = part;
     }
 
     @FXML
@@ -61,23 +60,24 @@ public class modifyPartController implements Initializable {
     }
 
 
-    public void sendPart(Part part){
-        selectedPart = part;
-        if(selectedPart instanceof InHouse){
+    public void sendPart(int index, Part part){
+        modifyPart = part;
+        this.index = index;
+        if(modifyPart instanceof InHouse){
             inHouseRadioButton.setSelected(true);
             partSourceLbl.setText("Machine ID");
-            partSource.setText(Integer.toString(((InHouse) selectedPart).getMachineId()));
+            partSource.setText(Integer.toString(((InHouse) modifyPart).getMachineId()));
         } else {
             outsourcedRadioButton.setSelected(true);
             partSourceLbl.setText("Company Name");
-            partSource.setText(((Outsourced) selectedPart).getCompanyName());
+            partSource.setText(((Outsourced) modifyPart).getCompanyName());
         }
-        partID.setText(String.valueOf(selectedPart.getId()));
-        partName.setText(selectedPart.getName());
-        partInventory.setText(String.valueOf(selectedPart.getStock()));
-        partPrice.setText(String.valueOf(selectedPart.getPrice()));
-        maxStock.setText(String.valueOf(selectedPart.getMax()));
-        minStock.setText(String.valueOf(selectedPart.getMin()));
+        partID.setText(String.valueOf(modifyPart.getId()));
+        partName.setText(modifyPart.getName());
+        partInventory.setText(String.valueOf(modifyPart.getStock()));
+        partPrice.setText(String.valueOf(modifyPart.getPrice()));
+        maxStock.setText(String.valueOf(modifyPart.getMax()));
+        minStock.setText(String.valueOf(modifyPart.getMin()));
     }
 
     @FXML
@@ -86,7 +86,6 @@ public class modifyPartController implements Initializable {
         //auto increment added to save method to prevent incrementing without use
         int id = Integer.parseInt(partID.getText());
         String name = partName.getText();
-        Part addedPart;
         int stock;
         double price;
         int max;
@@ -97,16 +96,15 @@ public class modifyPartController implements Initializable {
                 price = Double.parseDouble(partPrice.getText());
                 max = Integer.parseInt(maxStock.getText());
                 min = Integer.parseInt(minStock.getText());
-
                 int machineId = Integer.parseInt(partSource.getText());
-                addedPart = new InHouse(id, name, price, stock, min, max, machineId);
-                if (!(((InHouse) addedPart).notValid(name, price, stock, min, max))) {
-                    Inventory.updatePart(this.index, addedPart);
+                Part moddedPart = new InHouse(id, name, price, stock, min, max, machineId);
+                if (!(((InHouse) moddedPart).notValid(name, price, stock, min, max))) {
+                    Inventory.updatePart(this.index, moddedPart);
                     mainMenu(event);
                 } else {
                     modifyPartScreenAlert = new Alert(Alert.AlertType.ERROR);
                     modifyPartScreenAlert.setTitle("Save Failed!");
-                    modifyPartScreenAlert.setContentText(((InHouse) addedPart).foundError);
+                    modifyPartScreenAlert.setContentText(((InHouse) moddedPart).foundError);
                     modifyPartScreenAlert.show();
                 }
             }catch(Exception e){
@@ -125,15 +123,15 @@ public class modifyPartController implements Initializable {
                 min = Integer.parseInt(minStock.getText());
 
                 String companyName = partSource.getText();
-                addedPart = new Outsourced(id, name, price, stock, min, max, companyName);
-                if(!(((Outsourced) addedPart).notValid(name, companyName, price, stock, min, max))) {
-                    Inventory.addPart(addedPart);
+                Part moddedPart = new Outsourced(id, name, price, stock, min, max, companyName);
+                if(!(((Outsourced) moddedPart).notValid(name, companyName, price, stock, min, max))) {
+                    Inventory.addPart(moddedPart);
                     mainMenu(event);
                 }
                 else {
                     modifyPartScreenAlert = new Alert(Alert.AlertType.ERROR);
                     modifyPartScreenAlert.setTitle("Save Failed!");
-                    modifyPartScreenAlert.setContentText(((Outsourced) addedPart).foundError);
+                    modifyPartScreenAlert.setContentText(((Outsourced) moddedPart).foundError);
                     modifyPartScreenAlert.show();
                 }
             }catch(Exception e){

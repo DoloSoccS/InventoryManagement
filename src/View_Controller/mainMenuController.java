@@ -60,6 +60,7 @@ public class mainMenuController implements Initializable {
     @FXML
     void onActionModifyPart(ActionEvent event) throws IOException {
         Part selectedPart = partsMainMenuTableView.getSelectionModel().getSelectedItem();
+        int index = partsMainMenuTableView.getSelectionModel().getSelectedIndex();
         if (selectedPart == null) {
             mainScreenAlert = new Alert(Alert.AlertType.ERROR);
             mainScreenAlert.setTitle("Unable to Modify !");
@@ -76,7 +77,7 @@ public class mainMenuController implements Initializable {
                 loader.setLocation(getClass().getResource("/View_Controller/modifyPart.fxml"));
                 loader.load();
                 modifyPartController controller = loader.getController();
-                controller.sendPart(selectedPart);
+                controller.sendPart(index,selectedPart);
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 Parent scene = loader.getRoot();
@@ -226,6 +227,7 @@ public class mainMenuController implements Initializable {
     void onActionModifyProduct(ActionEvent event) throws IOException {
 
         Product selectedProduct = productsMainMenuTableView.getSelectionModel().getSelectedItem();
+        int index = productsMainMenuTableView.getSelectionModel().getSelectedIndex();
         if (selectedProduct == null) {
             mainScreenAlert = new Alert(Alert.AlertType.ERROR);
             mainScreenAlert.setTitle("Unable to Modify !");
@@ -241,7 +243,7 @@ public class mainMenuController implements Initializable {
                 loader.setLocation(getClass().getResource("/View_Controller/modifyProduct.fxml"));
                 loader.load();
                 modifyProductController controller = loader.getController();
-                controller.sendProduct(selectedProduct);
+                controller.sendProduct(index, selectedProduct);
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 Parent scene = loader.getRoot();

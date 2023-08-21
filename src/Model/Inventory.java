@@ -9,7 +9,7 @@ public class Inventory {
     private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
     private static int autoPartID = 1000;
     private static int autoProductID = 1;
-    public Alert PartScreenAlert;
+
 
     public static void addPart(Part newPart) {
         allParts.add(newPart);
@@ -45,7 +45,6 @@ public class Inventory {
             for (Part part : allParts) {
                 if (part.getName().toLowerCase().contains( partName.toLowerCase())) {
                     foundItem.add(part);
-
                 }
             }
             return foundItem;

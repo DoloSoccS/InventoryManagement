@@ -63,8 +63,9 @@ public class modifyProductController implements Initializable {
      * set the selectProduct object to allow for adding and removing the
      *                associated parts.
      */
-    public void sendProduct(Product product){
+    public void sendProduct(int index, Product product){
         selectedProduct = product;
+        this.index = index;
         productNameField.setText(selectedProduct.getName());
         productInventoryField.setText(String.valueOf(product.getStock()));
         productPriceField.setText(String.valueOf(product.getPrice()));
@@ -105,17 +106,19 @@ public class modifyProductController implements Initializable {
 
 
         try{
-            selectedProduct = new Product(
+            Product modifyProduct = new Product(
                     Integer.parseInt(productIDField.getText()),
                     productNameField.getText(),
                     Double.parseDouble(productPriceField.getText()),
                     Integer.parseInt(productInventoryField.getText()),
-                    Integer.parseInt(maxStock.getText()),
-                    Integer.parseInt(minStock.getText())
+                    Integer.parseInt(minStock.getText()),
+                    Integer.parseInt(maxStock.getText())
             );
-            if(!selectedProduct.notValid(selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getStock(), selectedProduct.getMin(), selectedProduct.getMax())){
-                Inventory.updateProduct(this.index, selectedProduct);
-                
+            if(!modifyProduct.notValid(modifyProduct.getName(), modifyProduct.getPrice(), modifyProduct.getStock(), modifyProduct.getMin(), modifyProduct.getMax())){
+                Inventory.updateProduct(this.index, modifyProduct);
+                for (int i = 0; i < modifyProduct.getAllAssociatedParts().size(); i++) {
+                    modifyProduct.addAssociatedPart(modifyProduct.getAllAssociatedParts().get(i));
+                }
                 stage = (Stage)((Button)event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
                 stage.setScene(new Scene(scene));
@@ -124,8 +127,9 @@ public class modifyProductController implements Initializable {
                 Alert screenAlert;
                 screenAlert = new Alert(Alert.AlertType.ERROR);
                 screenAlert.setTitle("Save Failed!");
-                screenAlert.setContentText(selectedProduct.foundError);
+                screenAlert.setContentText(modifyProduct.foundError);
                 screenAlert.show();
+
             }
         }catch(Exception e){
             Alert screenAlert;
@@ -133,6 +137,7 @@ public class modifyProductController implements Initializable {
             screenAlert.setTitle("Save Failed!");
             screenAlert.setContentText("Must use numbers for Inv, Price, Max and Min");
             screenAlert.show();
+
         }
 
     }
@@ -175,5 +180,5 @@ public class modifyProductController implements Initializable {
         this.selectedProduct = p;
     }
 
-    public modifyProductController(){};
+    public modifyProductController(){}
 }

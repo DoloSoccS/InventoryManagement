@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 public class addProductController implements Initializable {
 
     //Variables to reference window
-    Product selectedProduct = new Product();
+    Product newProduct = new Product();
     Stage stage;
     Parent scene;
     Alert mainScreenAlert;
@@ -75,10 +75,10 @@ public class addProductController implements Initializable {
             alert.setContentText("No Part Selected");
             Optional<ButtonType> option = alert.showAndWait();
         } else {
-            selectedProduct.addAssociatedPart(newPart);
+            newProduct.addAssociatedPart(newPart);
         }
 
-        removePartTableView.setItems(selectedProduct.getAllAssociatedParts());
+        removePartTableView.setItems(newProduct.getAllAssociatedParts());
     }
 
     @FXML
@@ -97,7 +97,7 @@ public class addProductController implements Initializable {
         Optional<ButtonType> option = mainScreenAlert.showAndWait();
         if(option.isPresent() && option.get() == ButtonType.OK) {
             Part byePart = removePartTableView.getSelectionModel().getSelectedItem();
-            selectedProduct.deleteAssociatedPart(byePart);}
+            newProduct.deleteAssociatedPart(byePart);}
 
     }
 
@@ -153,16 +153,20 @@ public class addProductController implements Initializable {
         //auto increment added to save method to prevent incrementing without use
         int id = Inventory.nextProductID();
         String name = productNameField.getText();
-        Product selectedProduct;
+        Product newProduct;
 
         try{
             int stock = Integer.parseInt(productInventoryField.getText());
             double price = Double.parseDouble(productPriceField.getText());
             int max = Integer.parseInt(maxStock.getText());
             int min = Integer.parseInt(minStock.getText());
-            selectedProduct = new Product(id, name, price, stock, min, max);
-            if(!selectedProduct.notValid(selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getStock(), selectedProduct.getMin(), selectedProduct.getMax())){
+            //rename product variable
+            newProduct = new Product(id, name, price, stock, min, max);
+            if(!newProduct.notValid(newProduct.getName(), newProduct.getPrice(), newProduct.getStock(), newProduct.getMin(), newProduct.getMax())){
                 Inventory.addProduct(new Product(id, name, price, stock, min, max));
+                for (int i = 0; i < newProduct.getAllAssociatedParts().size(); i++) {
+                    newProduct.addAssociatedPart(newProduct.getAllAssociatedParts().get(i));
+                }
                 stage = (Stage)((Button)event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
                 stage.setScene(new Scene(scene));
@@ -171,7 +175,7 @@ public class addProductController implements Initializable {
                 Alert screenAlert;
                 screenAlert = new Alert(Alert.AlertType.ERROR);
                 screenAlert.setTitle("Save Failed!");
-                screenAlert.setContentText(selectedProduct.foundError);
+                screenAlert.setContentText(newProduct.foundError);
                 screenAlert.show();
             }
         }catch(Exception e){

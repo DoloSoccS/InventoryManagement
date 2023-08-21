@@ -128,7 +128,10 @@ public class Product {
 
         if (!(stock >= min && stock <= max)) {
             foundError = "Inventory Level must be greater than or equal to minimum and less than or equal to maximum.";
+            System.out.println("Stock" + stock + "max" + max + "min" + min);
+
             return true;
+
         }
 
         return false;
