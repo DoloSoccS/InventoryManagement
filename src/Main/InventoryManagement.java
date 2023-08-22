@@ -21,7 +21,7 @@ public class InventoryManagement extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        addTestData();
+        defaultData();
 
         Parent root = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
         Scene scene = new Scene(root);
@@ -33,6 +33,8 @@ public class InventoryManagement extends Application {
     /**
      * main method as necessary for all java programs
      * includes launch method to run javafx application with given parameters(files)
+     *
+     * JavaDoc Folder is located at "C:\Users\dhous\Desktop\Projects_Desktop\InventoryManagement\JavaDoc"
      */
     public static void main(String[] args) {
             launch(args);
@@ -42,7 +44,7 @@ public class InventoryManagement extends Application {
      * sample data to instantiate multiple Part and Product objects
      * also includes methods to add those parts to the respective Inventory lists
      */
-    void addTestData() {
+    void defaultData() {
 
         //Add InHouse Parts
         Part wrench = new InHouse(1, "Wrench", 2.99, 10, 5, 100, 101);

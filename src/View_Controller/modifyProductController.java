@@ -76,12 +76,12 @@ public class modifyProductController implements Initializable {
         selectedProduct = product;
         this.index = index;
         productNameField.setText(selectedProduct.getName());
-        productInventoryField.setText(String.valueOf(product.getStock()));
-        productPriceField.setText(String.valueOf(product.getPrice()));
-        maxStock.setText(String.valueOf(product.getMax()));
-        minStock.setText(String.valueOf(product.getMin()));
-        removePartTableView.setItems(product.getAllAssociatedParts());
-        productIDField.setText(String.valueOf(product.getId()));
+        productInventoryField.setText(String.valueOf(selectedProduct.getStock()));
+        productPriceField.setText(String.valueOf(selectedProduct.getPrice()));
+        maxStock.setText(String.valueOf(selectedProduct.getMax()));
+        minStock.setText(String.valueOf(selectedProduct.getMin()));
+        removePartTableView.setItems(selectedProduct.getAllAssociatedParts());
+        productIDField.setText(String.valueOf(selectedProduct.getId()));
     }
 
     /**
@@ -147,6 +147,7 @@ public class modifyProductController implements Initializable {
             Optional<ButtonType> option = alert.showAndWait();
         }
         selectedProduct.addAssociatedPart(newPart);
+
     }
 
     /**
@@ -177,21 +178,16 @@ public class modifyProductController implements Initializable {
      */
     @FXML void onActionSaveProduct(ActionEvent event) throws IOException {
 
-
         try{
-            Product modifyProduct = new Product(
-                    Integer.parseInt(productIDField.getText()),
-                    productNameField.getText(),
-                    Double.parseDouble(productPriceField.getText()),
-                    Integer.parseInt(productInventoryField.getText()),
-                    Integer.parseInt(minStock.getText()),
-                    Integer.parseInt(maxStock.getText())
-            );
-            if(!modifyProduct.notValid(modifyProduct.getName(), modifyProduct.getPrice(), modifyProduct.getStock(), modifyProduct.getMin(), modifyProduct.getMax())){
-                Inventory.updateProduct(this.index, modifyProduct);
-                for (int i = 0; i < modifyProduct.getAllAssociatedParts().size(); i++) {
-                    modifyProduct.addAssociatedPart(modifyProduct.getAllAssociatedParts().get(i));
-                }
+            selectedProduct.setId(Integer.parseInt(productIDField.getText()));
+            selectedProduct.setName(productNameField.getText());
+            selectedProduct.setPrice(Double.parseDouble(productPriceField.getText()));
+            selectedProduct.setStock(Integer.parseInt(productInventoryField.getText()));
+            selectedProduct.setMin(Integer.parseInt(minStock.getText()));
+            selectedProduct.setMax(Integer.parseInt(maxStock.getText()));
+
+            if(!selectedProduct.notValid(selectedProduct.getName(), selectedProduct.getPrice(), selectedProduct.getStock(), selectedProduct.getMin(), selectedProduct.getMax())){
+                Inventory.updateProduct(Integer.parseInt(productIDField.getText())-1, selectedProduct);
                 stage = (Stage)((Button)event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
                 stage.setScene(new Scene(scene));
@@ -200,9 +196,8 @@ public class modifyProductController implements Initializable {
                 Alert screenAlert;
                 screenAlert = new Alert(Alert.AlertType.ERROR);
                 screenAlert.setTitle("Save Failed!");
-                screenAlert.setContentText(modifyProduct.foundError);
+                screenAlert.setContentText(selectedProduct.foundError);
                 screenAlert.show();
-
             }
         }catch(Exception e){
             Alert screenAlert;
@@ -210,7 +205,6 @@ public class modifyProductController implements Initializable {
             screenAlert.setTitle("Save Failed!");
             screenAlert.setContentText("Must use numbers for Inv, Price, Max and Min");
             screenAlert.show();
-
         }
 
     }

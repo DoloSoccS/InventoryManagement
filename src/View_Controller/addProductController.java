@@ -162,25 +162,18 @@ public class addProductController implements Initializable {
      * retaining the ID
      */
     //Saves Product and returns to Main Menu if inputs are compatible
-    @FXML
-    void onActionSaveProduct(ActionEvent event) throws IOException {
-
-        int id = Inventory.nextProductID();
-        String name = productNameField.getText();
-        Product newProduct;
+    @FXML void onActionSaveProduct(ActionEvent event) throws IOException {
 
         try{
-            int stock = Integer.parseInt(productInventoryField.getText());
-            double price = Double.parseDouble(productPriceField.getText());
-            int max = Integer.parseInt(maxStock.getText());
-            int min = Integer.parseInt(minStock.getText());
-            //rename product variable
-            newProduct = new Product(id, name, price, stock, min, max);
+            newProduct.setId(Inventory.nextProductID());
+            newProduct.setName(productNameField.getText());
+            newProduct.setPrice(Double.parseDouble(productPriceField.getText()));
+            newProduct.setStock(Integer.parseInt(productInventoryField.getText()));
+            newProduct.setMin(Integer.parseInt(minStock.getText()));
+            newProduct.setMax(Integer.parseInt(maxStock.getText()));
+
             if(!newProduct.notValid(newProduct.getName(), newProduct.getPrice(), newProduct.getStock(), newProduct.getMin(), newProduct.getMax())){
-                Inventory.addProduct(new Product(id, name, price, stock, min, max));
-                for (int i = 0; i < newProduct.getAllAssociatedParts().size(); i++) {
-                    newProduct.addAssociatedPart(newProduct.getAllAssociatedParts().get(i));
-                }
+                Inventory.addProduct(newProduct);
                 stage = (Stage)((Button)event.getSource()).getScene().getWindow();
                 scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));
                 stage.setScene(new Scene(scene));
