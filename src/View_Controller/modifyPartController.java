@@ -13,8 +13,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This controller class is for modifying Part objects
+ */
 public class modifyPartController implements Initializable {
 
+    /**
+     * Stage and scene variables for displaying the GUI window
+     * modifyPartScreenAlert is used to display on screen messages for events
+     * modifyPart is used to reference the selected Part object on this screen
+     * index is used to store that object's index in the Inventory.allParts list
+     * isInHouse is used to declare whether an object is InHouse or Outsourced
+     */
     Stage stage;
     Parent scene;
     Part modifyPart;
@@ -22,6 +32,9 @@ public class modifyPartController implements Initializable {
     private boolean isInHouse;
     Alert modifyPartScreenAlert;
 
+    /**
+     * FXID's for the corresponding RadioButtons, TextFields, Labels and ToggleGroup in the FXML file
+     */
     @FXML private RadioButton inHouseRadioButton;
     @FXML private RadioButton outsourcedRadioButton;
     @FXML private TextField partID;
@@ -34,13 +47,24 @@ public class modifyPartController implements Initializable {
     @FXML private ToggleGroup sourceToggleGroup;
     @FXML private Label partSourceLbl;
 
+    /**
+     * standard constructor for instantiating the controller without provided values
+     */
     public modifyPartController(){}
 
+    /**
+     * standard constructor for instantiating the controller with the index and
+     * Part attributes that are stored
+     */
     public modifyPartController(int index, Part part) {
         this.index = index;
         this.modifyPart = part;
     }
 
+    /**
+     * method is used indicate the InHouse RadioButton is selected and makes that object
+     * provide the Machine ID value
+     */
     @FXML
     void onActionInHouse(ActionEvent event) {
         isInHouse = true;
@@ -50,6 +74,10 @@ public class modifyPartController implements Initializable {
         partSource.setPromptText("Machine ID");
     }
 
+    /**
+     * method is used indicate the Outsourced RadioButton is selected and makes that object
+     * provide the Company Name value
+     */
     @FXML
     void onActionOutsource(ActionEvent event) {
         isInHouse = false;
@@ -59,11 +87,16 @@ public class modifyPartController implements Initializable {
         partSource.setPromptText("Company Name");
     }
 
-
+    /**
+     *
+     * This method will populate the object's attribute labels and
+     * set the modifyPart object to allow for updating values
+     */
     public void sendPart(int index, Part part){
         modifyPart = part;
         this.index = index;
         if(modifyPart instanceof InHouse){
+            isInHouse = true;
             inHouseRadioButton.setSelected(true);
             partSourceLbl.setText("Machine ID");
             partSource.setText(Integer.toString(((InHouse) modifyPart).getMachineId()));
@@ -80,6 +113,12 @@ public class modifyPartController implements Initializable {
         minStock.setText(String.valueOf(modifyPart.getMin()));
     }
 
+    /**
+     * Save method adds a new Part to the Inventory list after validating the
+     * correct data types and required information is input for the correlating
+     * object types. It also removes the old Part object if the type changes from InHouse to
+     * Outsource or vice versa
+     */
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
 
@@ -117,6 +156,7 @@ public class modifyPartController implements Initializable {
         }
         else {
             try{
+                Inventory.deletePart(modifyPart);
                 stock = Integer.parseInt(partInventory.getText());
                 price = Double.parseDouble(partPrice.getText());
                 max = Integer.parseInt(maxStock.getText());
@@ -143,6 +183,9 @@ public class modifyPartController implements Initializable {
         }
     }
 
+    /**
+     * method is used to cancel the modify part function and returns to the Main Menu
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -151,10 +194,16 @@ public class modifyPartController implements Initializable {
         stage.show();
     }
 
+    /**
+     * method is used to get the initial state of the modify Part screen
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
 
+    /**
+     * method is used to return to the Main Menu screen when executed by other methods
+     */
     private void mainMenu(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
         scene = FXMLLoader.load(getClass().getResource("/View_Controller/mainMenu.fxml"));

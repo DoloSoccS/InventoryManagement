@@ -17,55 +17,57 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * add product controller is used to create new Product objects
+ */
 public class addProductController implements Initializable {
 
+    /**
+     * Stage and Scene are used to display the add product screen
+     * newProduct is declared to hold the new Product object's values
+     * mainScreenAlert is used in the search field for displaying error messages
+     */
     //Variables to reference window
-    Product newProduct = new Product();
     Stage stage;
     Parent scene;
+    Product newProduct = new Product();
     Alert mainScreenAlert;
 
+    /**
+     * FXID's for the corresponding TextFields in the FXML file
+     */
     //fxid variables for all the TextFields in the Modify Product window
-    @FXML
-    private TextField productIDField;
-    @FXML
-    private TextField productNameField;
-    @FXML
-    private TextField productInventoryField;
-    @FXML
-    private TextField productPriceField;
-    @FXML
-    private TextField maxStock;
-    @FXML
-    private TextField minStock;
+    @FXML private TextField productIDField;
+    @FXML private TextField productNameField;
+    @FXML private TextField productInventoryField;
+    @FXML private TextField productPriceField;
+    @FXML private TextField maxStock;
+    @FXML private TextField minStock;
 
+    /**
+     * FXID's for the corresponding Search Field, Add Parts TableView and TableColumns in the FXML file
+     */
     //Part Search, add TableView and TableColumn variables
-    @FXML
-    private TextField searchPartField;
-    @FXML
-    private TableView<Part> addPartTableView;
-    @FXML
-    private TableColumn<Part, Integer> addPartID;
-    @FXML
-    private TableColumn<Part, String> addPartName;
-    @FXML
-    private TableColumn<Part, Integer> addInventoryLevel;
-    @FXML
-    private TableColumn<Part, Double> addPrice;
+    @FXML private TextField searchPartField;
+    @FXML private TableView<Part> addPartTableView;
+    @FXML private TableColumn<Part, Integer> addPartID;
+    @FXML private TableColumn<Part, String> addPartName;
+    @FXML private TableColumn<Part, Integer> addInventoryLevel;
+    @FXML private TableColumn<Part, Double> addPrice;
 
+    /**
+     * FXID's for the corresponding Associated Parts TableView and TableColumns in the FXML file
+     */
     //Remove Part TableView and TableColumn variables
-    @FXML
-    private TableView<Part> removePartTableView;
-    @FXML
-    private TableColumn<Part, Integer> removePartID;
-    @FXML
-    private TableColumn<Part, String> removePartName;
-    @FXML
-    private TableColumn<Part, Integer> removeInventoryLevel;
-    @FXML
-    private TableColumn<Part, Double> removePrice;
+    @FXML private TableView<Part> removePartTableView;
+    @FXML private TableColumn<Part, Integer> removePartID;
+    @FXML private TableColumn<Part, String> removePartName;
+    @FXML private TableColumn<Part, Integer> removeInventoryLevel;
+    @FXML private TableColumn<Part, Double> removePrice;
 
-
+    /**
+     * adds an associated part to the Product object
+     */
     @FXML
     void onActionAddAssociatedPart(ActionEvent event) {
         Part newPart = addPartTableView.getSelectionModel().getSelectedItem();
@@ -81,6 +83,9 @@ public class addProductController implements Initializable {
         removePartTableView.setItems(newProduct.getAllAssociatedParts());
     }
 
+    /**
+     * cancels the Product creation and returns to the Main Menu
+     */
     @FXML
     void onActionCancel(ActionEvent event) throws IOException {
         stage = (Stage)((Button)event.getSource()).getScene().getWindow();
@@ -89,6 +94,9 @@ public class addProductController implements Initializable {
         stage.show();
     }
 
+    /**
+     * removes an associated part from the Product object
+     */
     @FXML
     void onActionRemoveAssociatedPart(ActionEvent event) {
         Alert mainScreenAlert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -101,6 +109,12 @@ public class addProductController implements Initializable {
 
     }
 
+    /**
+     * this method searches the available Parts to add.
+     * If nothing is entered, a "No Part Entered" message displays
+     * If no ID or name is found, a correlating message also displays
+     * Once the operation is run, the method resets the search field to blank
+     */
     @FXML
     void onActionSearchPartField(ActionEvent event) {
         if (!searchPartField.getText().trim().isEmpty()) {
@@ -143,14 +157,14 @@ public class addProductController implements Initializable {
         }
     }
 
-
-
-
+    /**
+     * saves the updated product object and places it back into the allProducts list while
+     * retaining the ID
+     */
     //Saves Product and returns to Main Menu if inputs are compatible
     @FXML
     void onActionSaveProduct(ActionEvent event) throws IOException {
 
-        //auto increment added to save method to prevent incrementing without use
         int id = Inventory.nextProductID();
         String name = productNameField.getText();
         Product newProduct;
@@ -188,6 +202,10 @@ public class addProductController implements Initializable {
 
     }
 
+    /**
+     * This method pre-populates the addPartTableView with getAllParts() method as well
+     * as sets the table column names.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         //Populates the Parts table...
@@ -198,22 +216,17 @@ public class addProductController implements Initializable {
         addPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         //Populates Associated Parts table...
-
-        /* removePartTableView.setItems(Product.getAllAssociatedParts());
-        * cannot be used because the .getAllAssociatedParts() method is not static.
-        * A class must be instantiated first.
-        */
-
-
         removePartID.setCellValueFactory(new PropertyValueFactory<>("id"));
         removePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
         removeInventoryLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
         removePrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+        //Displays the given Product ID value
         productIDField.setText(String.valueOf(Inventory.nextProductID()));
     }
 
-    public addProductController(){
-
-    }
+    /**
+     * Standard class constructor for instantiating the class without values provided
+     */
+    public addProductController(){}
 }

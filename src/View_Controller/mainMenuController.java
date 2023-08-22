@@ -1,10 +1,9 @@
 package View_Controller;
 
-import Model.InHouse;
+
 import Model.Inventory;
 import Model.Part;
 import Model.Product;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,16 +19,28 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Main Menu controller holds the startup functions and states of the program
+ */
 public class mainMenuController implements Initializable {
 
+    /**
+     * Stage and Scene are used to display the main menu scene
+     * mainScreenAlert is used to hold error messages
+     */
     Stage stage;
     Parent scene;
     Alert mainScreenAlert;
 
-
+    /**
+     * FXID for the main menu title label
+     */
     //fxid variables for all the javafx controls on the Main Menu
     @FXML private Label mainMenuLabel;
 
+    /**
+     * FXIDs for Part search, Part TableView and TableColumns
+     */
     //Search field, TableView and TableColumns for Parts
     @FXML private TextField partSearchMainMenu;
     @FXML private TableView<Part> partsMainMenuTableView;
@@ -38,8 +49,10 @@ public class mainMenuController implements Initializable {
     @FXML private TableColumn<Part, Integer> partsInventoryLevelMainMenu;
     @FXML private TableColumn<Part, Double> partsPriceMainMenu;
 
+    /**
+     * FXIDs for Product search, Product TableView and TableColumns
+     */
     //Search field, TableView and TableColumns for Products
-
     @FXML private TextField productSearchMainMenu;
     @FXML private TableView<Product> productsMainMenuTableView;
     @FXML private TableColumn<Product, Integer> productIDMainMenu;
@@ -47,7 +60,9 @@ public class mainMenuController implements Initializable {
     @FXML private TableColumn<Product, Integer> productInventoryLevelMainMenu;
     @FXML private TableColumn<Product, Integer> productsPriceMainMenu;
 
-
+    /**
+     * method takes you to the Add Part screen to create a new Part object
+     */
     //Methods for adding, modifying and deleting Parts from the Main Menu TableView
     @FXML
     void onActionAddPart(ActionEvent event) throws IOException {
@@ -57,6 +72,11 @@ public class mainMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     * method takes you to the Modify Part screen to modify Part object
+     * asks for confirmation of selection before switching
+     * if no part is selected, a message will display
+     */
     @FXML
     void onActionModifyPart(ActionEvent event) throws IOException {
         Part selectedPart = partsMainMenuTableView.getSelectionModel().getSelectedItem();
@@ -87,6 +107,11 @@ public class mainMenuController implements Initializable {
         }
     }
 
+    /**
+     * method deletes a Part object
+     * asks for confirmation of selection before switching
+     * if no part is selected, a message will display
+     */
     @FXML
     void onActionDeletePart(ActionEvent event) throws IOException {
 
@@ -109,12 +134,15 @@ public class mainMenuController implements Initializable {
                 stage.setScene(new Scene(scene));
                 stage.show();
                 partsMainMenuTableView.setItems(Inventory.getAllParts());
-                System.out.println(Inventory.getAllParts());
             }
 
         }
     }
 
+    /**
+     * method searched by Part ID and Part Name(full or partial search)
+     * if no results found, a message will display
+     */
     //method for searching for parts
     @FXML
     void onActionPartSearch(ActionEvent event) throws IOException {
@@ -149,7 +177,6 @@ public class mainMenuController implements Initializable {
                     mainScreenAlert.setContentText("No Name Found.");
                     mainScreenAlert.showAndWait();
                     partsMainMenuTableView.setItems(Inventory.getAllParts());
-                    System.out.println(nfe.getCause());
                 }
             }
         } else {
@@ -165,6 +192,10 @@ public class mainMenuController implements Initializable {
 
     }
 
+    /**
+     * method searched by Product ID and Product Name(full or partial search)
+     * if no results found, a message will display
+     */
     @FXML
     void onActionProductSearch(ActionEvent event) throws IOException {
         if(!productSearchMainMenu.getText().trim().isEmpty()){
@@ -214,6 +245,9 @@ public class mainMenuController implements Initializable {
 
     }
 
+    /**
+     * method takes you to the Add Product screen to create new Product objects
+     */
     //Methods for adding, modifying and deleting Products from the Main Menu TableView
     @FXML
     void onActionAddProduct(ActionEvent event) throws IOException {
@@ -223,6 +257,11 @@ public class mainMenuController implements Initializable {
         stage.show();
     }
 
+    /**
+     * method takes you to the Modify Product screen to modify Product objects
+     * asks for confirmation of selection before switching
+     * if no product is selected, a message will display
+     */
     @FXML
     void onActionModifyProduct(ActionEvent event) throws IOException {
 
@@ -253,6 +292,12 @@ public class mainMenuController implements Initializable {
         }
     }
 
+    /**
+     * method deletes a Product object
+     * asks for confirmation of selection before switching
+     * if no product selected or the selected product has associated parts,
+     * a message will be displayed
+     */
     @FXML
     void onActionDeleteProduct(ActionEvent event) throws IOException {
 
@@ -272,11 +317,14 @@ public class mainMenuController implements Initializable {
                     Inventory.deleteProduct(selectedProduct);
                     //this only deletes the product but keeps the current state of the main menu
                     productsMainMenuTableView.setItems(Inventory.getAllProducts());
-                    System.out.println(Inventory.getAllProducts());
                 }
             }
     }
 
+    /**
+     * method closes down the program
+     * asks for confirmation before executing
+     */
     //Main Menu button for exiting the program
     @FXML
     void onActionExit(ActionEvent event) throws IOException {
@@ -289,11 +337,17 @@ public class mainMenuController implements Initializable {
         }
     }
 
+    /**
+     * standard constructor for instantiating the class
+     */
     //Constructor for the mainMenuController class
     public mainMenuController() {
     }
 
-    //Initializes the class for one-time use by the main method in InventoryManagement file
+    /**
+     * method provides the initial state of the Main Menu program
+     */
+    //Initializes the class for one-time use by the main method in Main.InventoryManagement file
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
